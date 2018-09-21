@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="poster_description">Movie Poster</string>
+
+    <!--movie_detail-->
+    <string name="movie_id">id</string>
+    <string name="movie_description">Description</string>
+    <string name="intent_title">title</string>
+    <string name="intent_release">release_date</string>
+    <string name="intent_rating">user_rating</string>
+    <string name="intent_poster">poster_path</string>
+    <string name="intent_plot">synopsis</string>
+
+
+    <!--queryutils-->
+    <string name="tag">Movies</string>
+    <string name="url_error">Error creating Url</string>
+    <string name="json_error">Error retrieving movie json results</string>
+    <string name="response_error">Error response code:</string>
+    <string name="inputstream_error">Error closing input stream</string>
+
+    <!--spinner-->
+    <string-array name="sort_array">
+        <item>Popular</item>
+        <item>Top Rated</item>
+    </string-array>
+
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="favourite">Favourites</string>
+
+    <string name="movie_added">Added movie to database</string>
+    <string name="movie_removed">Removed movie from database</string>
+
 </resources>
