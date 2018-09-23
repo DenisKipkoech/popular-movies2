@@ -15,7 +15,7 @@
     <!--queryutils-->
     <string name="tag">Movies</string>
     <string name="url_error">Error creating Url</string>
-    <string name="json_error">Error retrieving movie json results</string>
+    <string name="json_error">Error retrieving movie json movies</string>
     <string name="response_error">Error response code:</string>
     <string name="inputstream_error">Error closing input stream</string>
 
@@ -31,5 +31,6 @@
 
     <string name="movie_added">Added movie to database</string>
     <string name="movie_removed">Removed movie from database</string>
+    <string name="retrofit_fail">Something went wrong ... Please try again later</string>
 
 </resources>
