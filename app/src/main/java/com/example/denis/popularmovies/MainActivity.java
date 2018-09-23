@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.denis.popularmovies.Adapter.MoviesAdapter;
@@ -22,7 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    private String CATEGORY = "popular" ;
+    private String CATEGORY = "popular";
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
 
@@ -33,10 +36,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ApiEndPointInterface mInterface = RetrofitClientInstance.getRetrofitInstance()
-                                            .create(ApiEndPointInterface.class);
 
-        Call<MovieResult> call = mInterface.getMovies(CATEGORY, API_KEY);
+    }
+
+    private void makeApiCall(String category){
+        ApiEndPointInterface mInterface = RetrofitClientInstance.getRetrofitInstance()
+                .create(ApiEndPointInterface.class);
+
+        Call<MovieResult> call = mInterface.getMovies(category, API_KEY);
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
@@ -59,6 +66,30 @@ public class MainActivity extends AppCompatActivity {
                 new GridLayoutManager(MainActivity.this, COLUMN_SPAN);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_popular){
+            CATEGORY = "popular";
+            makeApiCall(CATEGORY);
+        }
+        if (id == R.id.action_top_rated){
+            CATEGORY = "top_rated";
+            makeApiCall(CATEGORY);
+        }
+        if (id == R.id.action_favourite){
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
