@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
     dataBinding {
         enabled = true
     }
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.example.denis.popularmovies"
         minSdkVersion 21

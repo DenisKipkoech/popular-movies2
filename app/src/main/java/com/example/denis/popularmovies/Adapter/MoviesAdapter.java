@@ -43,7 +43,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         final Movie movie = movies.get(holder.getAdapterPosition());
         Picasso.with(context).setLoggingEnabled(true);
         Picasso.with(context)
-                .load(movies.get(position).getPoster_url())
+                .load("http://image.tmdb.org/t/p/w342"+movies.get(position).getPoster_url())
                 .placeholder(R.mipmap.ic_launcher)
                 .into(holder.poster_view);
 

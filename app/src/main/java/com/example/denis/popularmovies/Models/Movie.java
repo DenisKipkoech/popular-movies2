@@ -52,8 +52,7 @@ public class Movie {
     }
 
     public String getPoster_url() {
-        String url = "http://image.tmdb.org/t/p/w342"+poster_url;
-        return url;
+        return poster_url;
     }
 
     public void setPoster_url(String poster_url) {

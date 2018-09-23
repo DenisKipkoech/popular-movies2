@@ -1,9 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.denis.popularmovies.MovieDetail">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="movie"
+            type="com.example.denis.popularmovies.Models.Movie"/>
 
-</android.support.constraint.ConstraintLayout>
+        <variable
+            name="posterViewModel"
+            type="com.example.denis.popularmovies.Adapter.PosterViewModel"/>
+
+    </data>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/poster_view"
+            app:imageUrl="@{movie.poster_url}"
+            android:layout_width="185dp"
+            android:layout_height="185dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/poster_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_view"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/rating_view"
+            style="@style/movieText"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toEndOf="@+id/poster_view"
+            app:layout_constraintTop_toBottomOf="@+id/release_date_view"
+            android:text="@{movie.user_rating}"
+            tools:text="8.1/10" />
+
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/movieText"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/movie_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/poster_view" />
+
+        <TextView
+            android:id="@+id/movie_synopsis_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="12dp"
+            tools:text="TextView"
+            android:text="@{movie.plot_synopsis}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/release_date_view"
+            style="@style/movieText"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="92dp"
+            app:layout_constraintStart_toEndOf="@+id/poster_view"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{movie.release_date}"
+            tools:text="September 2015" />
+
+        <TextView
+            android:id="@+id/title_view"
+            style="@style/movieText"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="16dp"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{movie.title}"
+            tools:text="Avengers" />
+
+        <CheckBox
+            android:id="@+id/favourite_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/button_favorite"
+            android:layout_marginEnd="116dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/rating_view"
+            app:layout_constraintTop_toBottomOf="@+id/rating_view" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
