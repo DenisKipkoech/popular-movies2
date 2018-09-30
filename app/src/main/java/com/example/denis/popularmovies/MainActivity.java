@@ -34,7 +34,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    private String CATEGORY = "popular";
+    private String CATEGORY = "";
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
 
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             makeApiCall(CATEGORY);
         }
         if (id == R.id.action_favourite){
+            getFavouriteMovies();
 
         }
         return super.onOptionsItemSelected(item);

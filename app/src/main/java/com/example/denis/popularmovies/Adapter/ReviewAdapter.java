@@ -30,7 +30,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     @NonNull
     @Override
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(context)
                         .inflate(R.layout.list_reviews, parent, false);
         return new ReviewViewHolder(view);
     }
@@ -41,8 +41,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
         holder.authorView.setText(review.getAuthor());
         holder.contentView.setText(review.getContent());
-
-        Log.d("ReviewAdapter", "onBindViewHolder: "+review.getAuthor());
 
     }
 

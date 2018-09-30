@@ -1,5 +1,6 @@
 package com.example.denis.popularmovies;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -50,12 +51,16 @@ public class MovieDetail extends AppCompatActivity {
      RecyclerView trailerRecyclerView;
     @BindView(R.id.review_recycler)
      RecyclerView reviewRecyclerView;
+    @BindView(R.id.favourite_toggle)
+    CheckBox checkBox;
 
     private TrailerAdapter trailerAdapter;
     private ReviewAdapter reviewAdapter;
 
     private AppDatabase database;
     private SharedPreferences preferences;
+
+    private boolean isFavourite;
 
 
 
@@ -64,7 +69,8 @@ public class MovieDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
-
+        database = AppDatabase.getInstance(this);
+        preferences = this.getSharedPreferences(Constants.MY_PREFERENCE, MODE_PRIVATE);
         final Intent intent = getIntent();
         if (intent != null) {
             movie = new Movie(
@@ -81,16 +87,12 @@ public class MovieDetail extends AppCompatActivity {
                     .load("http://image.tmdb.org/t/p/w342" + movie.getPoster_url())
                     .into(poster);
 
-
             makeTrailerCall(String.valueOf(movie.getId()));
             makeReviewCall(String.valueOf(movie.getId()));
             populateUI(movie);
+            updateCheckBox();
 
         }
-
-
-
-
 
     }
 
@@ -172,8 +174,7 @@ public class MovieDetail extends AppCompatActivity {
 
             }
         });
-        Toast.makeText(getApplicationContext(), String.valueOf(R.string.movie_added),
-                Toast.LENGTH_LONG).show();
+
     }
 
     private void removeMovieFromFavourite(){
@@ -183,24 +184,34 @@ public class MovieDetail extends AppCompatActivity {
                 database.MovieDao().deleteMovie(movie);
             }
         });
-        Toast.makeText(getApplicationContext(), String.valueOf(R.string.movie_removed),
-                Toast.LENGTH_LONG).show();
+
     }
 
     public void onCheckBoxClicked(View view){
         boolean checked = ((CheckBox) view).isChecked();
         if (checked){
+            addMovieToFavourite();
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(String.valueOf(movie.getId()), true);
             editor.commit();
-            Toast.makeText(getBaseContext(), "toggle switched on", Toast.LENGTH_SHORT)
-                    .show();
+
         }else{
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(String.valueOf(movie.getId()), false);
             editor.commit();
-            Toast.makeText(getBaseContext(), "toggle switched off", Toast.LENGTH_SHORT)
-                    .show();
+            removeMovieFromFavourite();
+
         }
     }
+
+    private void updateCheckBox(){
+        boolean ischecked = preferences.getBoolean(String.valueOf(movie.getId()), false);
+        if (ischecked){
+            checkBox.setChecked(true);
+        }else{
+            checkBox.setChecked(false);
+        }
+    }
+
+
 }
