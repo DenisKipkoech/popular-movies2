@@ -1,5 +1,8 @@
 package com.example.denis.popularmovies;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,10 +14,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.denis.popularmovies.Adapter.MoviesAdapter;
+import com.example.denis.popularmovies.Models.Constants;
 import com.example.denis.popularmovies.Models.Movie;
 import com.example.denis.popularmovies.Models.MovieResult;
+import com.example.denis.popularmovies.Models.Review;
+import com.example.denis.popularmovies.Models.ReviewResult;
+import com.example.denis.popularmovies.Models.Trailer;
+import com.example.denis.popularmovies.Models.TrailerResult;
 import com.example.denis.popularmovies.Network.ApiEndPointInterface;
 import com.example.denis.popularmovies.Network.RetrofitClientInstance;
+import com.example.denis.popularmovies.ViewModels.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
 
-    private static final String API_KEY = "7bdc0adfb0ccb7eadb85e9fae2e84742";
     private static final int COLUMN_SPAN = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         ApiEndPointInterface mInterface = RetrofitClientInstance.getRetrofitInstance()
                 .create(ApiEndPointInterface.class);
 
-        Call<MovieResult> call = mInterface.getMovies(category, API_KEY);
+        Call<MovieResult> call = mInterface.getMovies(category, Constants.API_KEY);
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
@@ -58,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void getMoviesData(List<Movie> movies){
         recyclerView = findViewById(R.id.recycler);
@@ -91,6 +100,18 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void getFavouriteMovies(){
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                adapter.setMovies((ArrayList<Movie>) movies);
+            }
+        });
+
+    }
+
 
 }
 

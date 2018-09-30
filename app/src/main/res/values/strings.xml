@@ -33,4 +33,9 @@
     <string name="movie_removed">Removed movie from database</string>
     <string name="retrofit_fail">Something went wrong ... Please try again later</string>
 
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
+
+
+
 </resources>
