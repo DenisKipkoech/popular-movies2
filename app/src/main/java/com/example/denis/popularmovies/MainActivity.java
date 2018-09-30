@@ -2,6 +2,8 @@ package com.example.denis.popularmovies;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,14 +39,46 @@ public class MainActivity extends AppCompatActivity {
     private String CATEGORY = "";
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
+    private Parcelable listState;
+    private RecyclerView.LayoutManager layoutManager;
+    private static final String LIST_STATE_KEY = "liststate";
 
     private static final int COLUMN_SPAN = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.recycler);
+        layoutManager =
+                new GridLayoutManager(MainActivity.this, COLUMN_SPAN);
+        recyclerView.setLayoutManager(layoutManager);
 
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (layoutManager != null){
+            listState = layoutManager.onSaveInstanceState();
+            outState.putParcelable(LIST_STATE_KEY, listState);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (listState != null){
+            layoutManager.onRestoreInstanceState(listState);
+        }
     }
 
     private void makeApiCall(String category){
@@ -69,11 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getMoviesData(List<Movie> movies){
-        recyclerView = findViewById(R.id.recycler);
         adapter = new MoviesAdapter(this, (ArrayList<Movie>) movies);
-        RecyclerView.LayoutManager layoutManager =
-                new GridLayoutManager(MainActivity.this, COLUMN_SPAN);
-        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
