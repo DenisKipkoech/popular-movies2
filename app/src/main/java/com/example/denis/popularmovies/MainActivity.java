@@ -36,7 +36,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    private String CATEGORY = "";
+    private String CATEGORY = "popular";
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
     private Parcelable listState;
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager =
                 new GridLayoutManager(MainActivity.this, COLUMN_SPAN);
         recyclerView.setLayoutManager(layoutManager);
+
+        makeApiCall(CATEGORY);
 
 
     }
@@ -137,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
-                adapter.setMovies((ArrayList<Movie>) movies);
+                if (movies != null) {
+                    adapter.setMovies((ArrayList<Movie>) movies);
+                }
             }
         });
 
