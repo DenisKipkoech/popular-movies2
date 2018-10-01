@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Parcelable listState;
     private RecyclerView.LayoutManager layoutManager;
     private static final String LIST_STATE_KEY = "liststate";
+    private static final String CATEGORY_KEY = "categorystate";
 
     private static final int COLUMN_SPAN = 2;
     @Override
@@ -52,19 +53,15 @@ public class MainActivity extends AppCompatActivity {
         layoutManager =
                 new GridLayoutManager(MainActivity.this, COLUMN_SPAN);
         recyclerView.setLayoutManager(layoutManager);
-
-        makeApiCall(CATEGORY);
-
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        if (layoutManager != null){
-            listState = layoutManager.onSaveInstanceState();
-            outState.putParcelable(LIST_STATE_KEY, listState);
+        if (savedInstanceState != null){
+            if(savedInstanceState.containsKey(CATEGORY_KEY)) {
+                String category = savedInstanceState.getString(CATEGORY_KEY);
+                makeApiCall(category);
+            }
+        }else{
+            makeApiCall(CATEGORY);
         }
+
     }
 
     @Override
@@ -72,7 +69,19 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         if(savedInstanceState != null){
             listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            CATEGORY = savedInstanceState.getString(CATEGORY_KEY);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (layoutManager != null){
+            listState = layoutManager.onSaveInstanceState();
+            outState.putParcelable(LIST_STATE_KEY, listState);
+        }
+        outState.putString(CATEGORY_KEY, CATEGORY);
+        Log.d("MainActivity", "onSaveInstanceState: category = "+CATEGORY);
     }
 
     @Override
