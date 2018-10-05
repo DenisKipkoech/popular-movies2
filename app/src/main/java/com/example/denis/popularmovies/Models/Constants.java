@@ -5,6 +5,6 @@ package com.example.denis.popularmovies.Models;
  */
 
 public class Constants {
-    public static final String API_KEY = "7bdc0adfb0ccb7eadb85e9fae2e84742";
+    public static final String API_KEY = " ";
     public static final String MY_PREFERENCE = "preference";
 }
